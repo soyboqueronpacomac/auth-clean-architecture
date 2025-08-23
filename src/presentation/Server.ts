@@ -1,4 +1,4 @@
-import express, { Router } from "express"
+import express, { json, Router, urlencoded } from "express"
 interface Options {
     port: number;
     routes: Router
@@ -16,7 +16,9 @@ export class Server {
 
     async start() {
         //middlewares
-        this.app.use(this.routes)
+        this.app.use(json());
+        this.app.use(urlencoded({ extended: true}));
+        this.app.use(this.routes);
         this.app.listen(this.port, () => {
             console.log(`Server running on the port ${this.port}`);
         })
